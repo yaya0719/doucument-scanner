@@ -14,7 +14,7 @@ def order_points(points):
     rect_points[1]=points[np.argmin(xy_diff)]
     rect_points[3]=points[np.argmax(xy_diff)]
     return rect_points
-
+#取得原照片轉換後的照片
 def four_points_transform(image,points):
     rect_points=order_points(points)
     (tl,tr,br,bl)=rect_points #top button right left
@@ -32,13 +32,10 @@ def four_points_transform(image,points):
       [maxWidth - 1, 0],
       [maxWidth - 1, maxHeight - 1],
       [0, maxHeight - 1]], dtype = "float32")
-
-   # compute the perspective transform matrix
+    #透視變換
+    #取得要從rect_points變成dst的透視變換矩陣
     transform_matrix = cv2.getPerspectiveTransform(rect_points, dst)
-
-   # Apply the transform matrix
+    #用透視變換矩陣取得轉換後的照片
     warped = cv2.warpPerspective(image, transform_matrix, (maxWidth, maxHeight))
-
-   # return the warped image
     return warped
     
